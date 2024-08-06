@@ -201,7 +201,7 @@ FVector UC_STSInstance::GenerateRandomVector(FBox2D _Box)
 
 void UC_STSInstance::SetPlayerMesh(EPlayerMesh _Mesh)
 {
-	PlayerMeshs.Add(_Mesh);
+	PlayerMeshs = _Mesh;
 }
 
 void UC_STSInstance::SetSpawnMonster()

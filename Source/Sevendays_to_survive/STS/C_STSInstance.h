@@ -70,11 +70,7 @@ public:
 	UFUNCTION(BlueprintPure)
 	EPlayerMesh GetPlayerMesh()
 	{
-		if (true==PlayerMeshs.IsEmpty())
-		{
-			return EPlayerMesh::Player1;
-		}
-		return PlayerMeshs[PlayerMeshs.Num()-1];
+		return PlayerMeshs;
 	}
 
 	UFUNCTION()
@@ -160,7 +156,7 @@ private:
 	UDataTable* WidgetDataTable = nullptr;
 
 	UPROPERTY()
-	TArray<EPlayerMesh> PlayerMeshs;
+	EPlayerMesh PlayerMeshs= EPlayerMesh::Player1;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DataAsset", meta = (AllowPrivateAccess = "true"))
 	FString PlayerName;
