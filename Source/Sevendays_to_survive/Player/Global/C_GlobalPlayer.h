@@ -291,8 +291,8 @@ protected:
 	void Reload_Implementation();
 
 	UFUNCTION(BlueprintCallable,Reliable, Server)
-	void MeshInit(EPlayerMesh _Mesh);
-	void MeshInit_Implementation(EPlayerMesh _Mesh);
+	void MeshInit(const EPlayerMesh _Mesh);
+	void MeshInit_Implementation(const EPlayerMesh _Mesh);
 
 	UFUNCTION(BlueprintCallable, Reliable, Server)
 	void NamesInit(const FText& _Name);

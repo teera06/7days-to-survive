@@ -156,13 +156,13 @@ private:
 	UDataTable* WidgetDataTable = nullptr;
 
 	UPROPERTY()
-	EPlayerMesh PlayerMeshs= EPlayerMesh::Player1;
+	EPlayerMesh PlayerMeshs= EPlayerMesh::Player1; // 플레이어 메시 인덱스
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DataAsset", meta = (AllowPrivateAccess = "true"))
-	FString PlayerName;
+	FString PlayerName; // 플레이어 이름
 
 	UPROPERTY()
-	int NetToken = -1;
+	int NetToken = -1; // 고유의 토큰 번호
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "End", meta = (AllowPrivateAccess = "true"))
 	bool CloseGame =false;

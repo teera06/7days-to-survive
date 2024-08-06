@@ -297,20 +297,10 @@ void AC_GlobalPlayer::BeginPlay()
 
 		if (this == UGameplayStatics::GetPlayerPawn(GetWorld(), 0))
 		{
-			// 스켈레탈 매쉬 TArray<SkeletalMesh> Arr;
-			// 스켈레탈 매쉬 TArray<SkeletalMesh> Arr;
-		
-			/*if (PlayerSpawnCheckToken != -1)
-			{
-				FC_PlayerSpawnData* DataTables = init->GetPlayerSpawnDataTable();
-				FVector test = DataTables->PlayerSpawnLocations[PlayerSpawnCheckToken + 1];
-				SetActorLocation(test);
-			}*/
-			
 			characterResultMesh = init->GetPlayerMesh();
 			FString ServerName = init->GetPlayerName();
 			PlayerName = FText::FromString(ServerName);
-			//MeshInit(characterResultMesh);
+			
 		}
 	}
 
@@ -1088,25 +1078,8 @@ void AC_GlobalPlayer::Reload_Implementation()
 
 }
 
-void AC_GlobalPlayer::MeshInit_Implementation(EPlayerMesh _Mesh)
+void AC_GlobalPlayer::MeshInit_Implementation(const EPlayerMesh _Mesh)
 {
-	//if (this == UGameplayStatics::GetPlayerPawn(GetWorld(), 0))
-		//{
-		//	// 스켈레탈 매쉬 TArray<SkeletalMesh> Arr;
-		//	// 스켈레탈 매쉬 TArray<SkeletalMesh> Arr;
-		//	UC_STSInstance* init = GetWorld()->GetGameInstanceChecked<UC_STSInstance>();
-
-		//	if (GetWorld()->GetAuthGameMode() != nullptr)
-		//	{
-		//		PlayerSpawnCheckToken = init->GetNetToken();
-		//	}
-		//	characterResultMesh = init->GetPlayerMesh();
-		//}
-	if (_Mesh == characterResultMesh)
-	{
-		return;
-	}
-
 	characterResultMesh = _Mesh;
 }
 
