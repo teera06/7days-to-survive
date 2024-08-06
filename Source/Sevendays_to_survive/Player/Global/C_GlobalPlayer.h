@@ -34,6 +34,14 @@ public:
 	float YawMax = 1.0f;
 };
 
+USTRUCT()
+struct FGunWeaponDatas
+{
+	GENERATED_BODY()
+public:
+	
+};
+
 class USpringArmComponent; // 스프링 암
 class UCameraComponent; // 카메라 컴포넌트
 class UInputMappingContext; // 입력 매핑
