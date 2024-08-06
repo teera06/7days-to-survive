@@ -91,7 +91,7 @@ public:
     UStaticMesh* StaticMesh = nullptr;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    ESkerItemSlot SkeletalItemSlot = ESkerItemSlot::SlotMax;
+    ESkeletalItemSlot SkeletalItemSlot = ESkeletalItemSlot::SlotMax;
 
 private:
     int RowIndex = 1;

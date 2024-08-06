@@ -13,7 +13,7 @@ UC_GunComponent::UC_GunComponent()
 	//MuzzleOffset = FVector(100.0f, 0.0f, 10.0f);
 }
 
-void UC_GunComponent::AttachWeapon(AC_GlobalPlayer* _TargetCharacter, ESkerItemSlot _GunWeapon)
+void UC_GunComponent::AttachWeapon(AC_GlobalPlayer* _TargetCharacter, ESkeletalItemSlot _GunWeapon)
 {
     Character = _TargetCharacter;
 
@@ -25,19 +25,19 @@ void UC_GunComponent::AttachWeapon(AC_GlobalPlayer* _TargetCharacter, ESkerItemS
 
     switch (_GunWeapon)
     {
-    case ESkerItemSlot::RRifle:
+    case ESkeletalItemSlot::RRifle:
         Character->SetPlayerCurState(EWeaponUseState::Rifle);
         break;
-    case ESkerItemSlot::RRifle2:
+    case ESkeletalItemSlot::RRifle2:
         Character->SetPlayerCurState(EWeaponUseState::Rifle2);
         break;
-    case ESkerItemSlot::RPistol:
+    case ESkeletalItemSlot::RPistol:
         Character->SetPlayerCurState(EWeaponUseState::Pistol);
         break;
-    case ESkerItemSlot::RPistol2:
+    case ESkeletalItemSlot::RPistol2:
         Character->SetPlayerCurState(EWeaponUseState::Pistol2);
         break;
-    case ESkerItemSlot::RShotgun:
+    case ESkeletalItemSlot::RShotgun:
         Character->SetPlayerCurState(EWeaponUseState::Shotgun);
         break;
     default:
@@ -51,7 +51,7 @@ void UC_GunComponent::AttachWeapon(AC_GlobalPlayer* _TargetCharacter, ESkerItemS
     {
         Character->GetSkeletalItemMesh()[static_cast<uint8>(_GunWeapon)]->SetSkinnedAsset(GetSkinnedAsset());
 
-        UEnum* Enum = StaticEnum<ESkerItemSlot>();
+        UEnum* Enum = StaticEnum<ESkeletalItemSlot>();
         FString Name = Enum->GetNameStringByValue(static_cast<uint8>(_GunWeapon));
         AttachToComponent(Character->GetSkeletalItemMesh()[static_cast<uint8>(_GunWeapon)], AttachmentRules, *Name);
     }

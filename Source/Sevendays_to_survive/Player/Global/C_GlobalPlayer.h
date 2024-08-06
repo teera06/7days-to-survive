@@ -39,7 +39,8 @@ struct FGunWeaponDatas
 {
 	GENERATED_BODY()
 public:
-	
+	int  magazinecapacity = 0;
+	UAnimMontage* ReloadMontages = nullptr;
 };
 
 class USpringArmComponent; // 스프링 암
@@ -194,12 +195,12 @@ protected:
 	void ChangeSlotMeshServer_Implementation(EStaticItemSlot _Slot, UStaticMesh* _Mesh);
 
 	UFUNCTION(Reliable, NetMulticast)
-	void ChangeSlotSkeletal(ESkerItemSlot _Slot);
-	void ChangeSlotSkeletal_Implementation(ESkerItemSlot _Slot);
+	void ChangeSlotSkeletal(ESkeletalItemSlot _Slot);
+	void ChangeSlotSkeletal_Implementation(ESkeletalItemSlot _Slot);
 
 	UFUNCTION(BlueprintCallable, Reliable, Server)
-	void ChangeSlotSkeletalServer(ESkerItemSlot _Slot);
-	void ChangeSlotSkeletalServer_Implementation(ESkerItemSlot _Slot);
+	void ChangeSlotSkeletalServer(ESkeletalItemSlot _Slot);
+	void ChangeSlotSkeletalServer_Implementation(ESkeletalItemSlot _Slot);
 
 	UFUNCTION(Reliable, NetMulticast)
 	void ChangeNoWeapon();
@@ -346,13 +347,16 @@ private:
 	TArray<UStaticMeshComponent*> StaticItemMeshs;
 
 	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<ESkerItemSlot, int> magazinecapacity;
+	TMap<ESkeletalItemSlot, int> magazinecapacity;
 
 	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<ESkerItemSlot, UAnimMontage*> ReloadMontages;
+	TMap<ESkeletalItemSlot, UAnimMontage*> ReloadMontages;
 
 	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TMap<EStaticItemSlot, USoundBase*> WeaponSounds;
+
+	UPROPERTY()
+	TMap<EStaticItemSlot, FGunWeaponDatas> GunWeaponsData;
 
 	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<USkeletalMeshComponent*> SkeletalItemMeshes;

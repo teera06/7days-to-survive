@@ -31,7 +31,7 @@ public:
 
 	/** Attaches the actor to a FirstPersonCharacter */
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
-	void AttachWeapon(AC_GlobalPlayer* _TargetCharacter, ESkerItemSlot _GunWeapon);
+	void AttachWeapon(AC_GlobalPlayer* _TargetCharacter, ESkeletalItemSlot _GunWeapon);
 
 
 

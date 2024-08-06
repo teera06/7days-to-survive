@@ -52,7 +52,7 @@ enum class EStaticItemSlot : uint8
 };
 
 UENUM(BlueprintType)
-enum class ESkerItemSlot : uint8
+enum class ESkeletalItemSlot : uint8
 {
 	RRifle,
 	RRifle2,
