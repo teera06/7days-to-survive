@@ -239,20 +239,19 @@ void AC_GlobalPlayer::Resetmagazinecapacity()
 	switch (PlayerCurState)
 	{
 	case EWeaponUseState::Rifle:
-		magazinecapacity[ESkeletalItemSlot::RRifle] = Riflemagazinecapacity;
+		ReloadData[ESkeletalItemSlot::RRifle].magazinecapacity = Riflemagazinecapacity;
 		break;
 	case EWeaponUseState::Rifle2:
-		magazinecapacity[ESkeletalItemSlot::RRifle2] = Riflemagazinecapacity;
+		ReloadData[ESkeletalItemSlot::RRifle2].magazinecapacity = Riflemagazinecapacity;
 		break;
 	case EWeaponUseState::Pistol:
-		magazinecapacity[ESkeletalItemSlot::RPistol] = Pistolmagazinecapacity;
-		//PlayCharacter->GetPistolmagazinecapacity();
+		ReloadData[ESkeletalItemSlot::RPistol].magazinecapacity = Pistolmagazinecapacity;
 		break;
 	case EWeaponUseState::Pistol2:
-		magazinecapacity[ESkeletalItemSlot::RPistol2] = Pistolmagazinecapacity;
+		ReloadData[ESkeletalItemSlot::RPistol2].magazinecapacity = Pistolmagazinecapacity;
 		break;
 	case EWeaponUseState::Shotgun:
-		magazinecapacity[ESkeletalItemSlot::RShotgun] = ShotGunmagazinecapacity;
+		ReloadData[ESkeletalItemSlot::RShotgun].magazinecapacity = ShotGunmagazinecapacity;
 		break;
 	default:
 		break;
@@ -428,27 +427,26 @@ void AC_GlobalPlayer::BeginPlay()
 	{
 		for (size_t i = 0; i < static_cast<size_t>(ESkeletalItemSlot::SlotMax); i++)
 		{
+
+			FGunWeaponReloadDatas Data;
 			switch (static_cast<ESkeletalItemSlot>(i))
 			{
 			case ESkeletalItemSlot::RRifle:
-				magazinecapacity.Add(static_cast<ESkeletalItemSlot>(i), Riflemagazinecapacity);
-				ReloadMontages.Add(static_cast<ESkeletalItemSlot>(i),STSInstance->GetWeaPonDataTable(FName("M4"))->ReloadAniMontage);
-				break;
 			case ESkeletalItemSlot::RRifle2:
-				magazinecapacity.Add(static_cast<ESkeletalItemSlot>(i), Riflemagazinecapacity);
-				ReloadMontages.Add(static_cast<ESkeletalItemSlot>(i), STSInstance->GetWeaPonDataTable(FName("Rifle2"))->ReloadAniMontage);
+				Data.magazinecapacity = Riflemagazinecapacity;
+				Data.ReloadMontages = STSInstance->GetWeaPonDataTable(FName("M4"))->ReloadAniMontage;
+				ReloadData.Add(static_cast<ESkeletalItemSlot>(i), Data);
 				break;
 			case ESkeletalItemSlot::RPistol:
-				magazinecapacity.Add(static_cast<ESkeletalItemSlot>(i), Pistolmagazinecapacity);
-				ReloadMontages.Add(static_cast<ESkeletalItemSlot>(i), STSInstance->GetWeaPonDataTable(FName("Pistol1"))->ReloadAniMontage);
-				break;
 			case ESkeletalItemSlot::RPistol2:
-				magazinecapacity.Add(static_cast<ESkeletalItemSlot>(i), Pistolmagazinecapacity);
-				ReloadMontages.Add(static_cast<ESkeletalItemSlot>(i), STSInstance->GetWeaPonDataTable(FName("Pistol2"))->ReloadAniMontage);
+				Data.magazinecapacity = Pistolmagazinecapacity;
+				Data.ReloadMontages = STSInstance->GetWeaPonDataTable(FName("Pistol2"))->ReloadAniMontage;
+				ReloadData.Add(static_cast<ESkeletalItemSlot>(i), Data);
 				break;
 			case ESkeletalItemSlot::RShotgun:
-				magazinecapacity.Add(static_cast<ESkeletalItemSlot>(i), ShotGunmagazinecapacity);
-				ReloadMontages.Add(static_cast<ESkeletalItemSlot>(i), STSInstance->GetWeaPonDataTable(FName("Shotgun"))->ReloadAniMontage);
+				Data.magazinecapacity = ShotGunmagazinecapacity;
+				Data.ReloadMontages = STSInstance->GetWeaPonDataTable(FName("Shotgun"))->ReloadAniMontage;
+				ReloadData.Add(static_cast<ESkeletalItemSlot>(i), Data);
 				break;
 			case ESkeletalItemSlot::SlotMax:
 				break;
@@ -586,27 +584,27 @@ void AC_GlobalPlayer::GunLineTrace_Implementation()
 	switch (PlayerCurState)
 	{
 	case EWeaponUseState::Rifle:
-		--magazinecapacity[ESkeletalItemSlot::RRifle];
+		--ReloadData[ESkeletalItemSlot::RRifle].magazinecapacity;
 		CurWeapon->GunParticleAndSound(PlayerCurState);
 		Rebound();
 		break;
 	case EWeaponUseState::Pistol:
-		--magazinecapacity[ESkeletalItemSlot::RPistol];
+		--ReloadData[ESkeletalItemSlot::RPistol].magazinecapacity;
 		CurWeapon->GunParticleAndSound(PlayerCurState);
 		break;
 	case EWeaponUseState::Rifle2:
-		--magazinecapacity[ESkeletalItemSlot::RRifle2];
+		--ReloadData[ESkeletalItemSlot::RRifle2].magazinecapacity;
 		CurWeapon->PlayGunAnimation(PlayerCurState);
 		Rebound();
 		break;
 	case EWeaponUseState::Pistol2:
-		--magazinecapacity[ESkeletalItemSlot::RPistol2];
+		--ReloadData[ESkeletalItemSlot::RPistol2].magazinecapacity;
 		CurWeapon->PlayGunAnimation(PlayerCurState);
 		break;
 	default:
 		break;
 	}
-	//LineTracemagazinecapacity -= 1;
+
 	if (UGameplayStatics::GetGameMode(GetWorld()) == nullptr)
 	{
 		return;
@@ -719,7 +717,7 @@ void AC_GlobalPlayer::ShotGunLineTrace_Implementation()
 
 
 	CurWeapon->PlayGunAnimation(PlayerCurState);
-	--magazinecapacity[ESkeletalItemSlot::RShotgun];
+	--ReloadData[ESkeletalItemSlot::RShotgun].magazinecapacity;
 	Rebound();
 	if (UGameplayStatics::GetGameMode(GetWorld()) == nullptr)
 	{
@@ -834,7 +832,7 @@ void AC_GlobalPlayer::FireLoop_Implementation()
 	switch (PlayerCurState)
 	{
 	case EWeaponUseState::Rifle:
-		if (magazinecapacity[ESkeletalItemSlot::RRifle] == 0)
+		if (ReloadData[ESkeletalItemSlot::RRifle].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			IsFireCpp = false;
@@ -842,7 +840,7 @@ void AC_GlobalPlayer::FireLoop_Implementation()
 		}
 		break;
 	case EWeaponUseState::Pistol:
-		if (magazinecapacity[ESkeletalItemSlot::RPistol] == 0)
+		if (ReloadData[ESkeletalItemSlot::RPistol].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			IsFireCpp = false;
@@ -850,7 +848,7 @@ void AC_GlobalPlayer::FireLoop_Implementation()
 		}
 		break;
 	case EWeaponUseState::Rifle2:
-		if (magazinecapacity[ESkeletalItemSlot::RRifle2] == 0)
+		if (ReloadData[ESkeletalItemSlot::RRifle2].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			IsFireCpp = false;
@@ -858,7 +856,7 @@ void AC_GlobalPlayer::FireLoop_Implementation()
 		}
 		break;
 	case EWeaponUseState::Pistol2:
-		if (magazinecapacity[ESkeletalItemSlot::RPistol2] == 0)
+		if (ReloadData[ESkeletalItemSlot::RPistol2].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			IsFireCpp = false;
@@ -1058,19 +1056,19 @@ void AC_GlobalPlayer::Reload_Implementation()
 	switch (PlayerCurState)
 	{
 	case EWeaponUseState::Rifle:
-		GetMesh()->GetAnimInstance()->Montage_Play(ReloadMontages[ESkeletalItemSlot::RRifle]);
+		GetMesh()->GetAnimInstance()->Montage_Play(ReloadData[ESkeletalItemSlot::RRifle].ReloadMontages);
 		break;
 	case EWeaponUseState::Pistol:
-		GetMesh()->GetAnimInstance()->Montage_Play(ReloadMontages[ESkeletalItemSlot::RPistol]);
+		GetMesh()->GetAnimInstance()->Montage_Play(ReloadData[ESkeletalItemSlot::RPistol].ReloadMontages);
 		break;
 	case EWeaponUseState::Rifle2:
-		GetMesh()->GetAnimInstance()->Montage_Play(ReloadMontages[ESkeletalItemSlot::RRifle2]);
+		GetMesh()->GetAnimInstance()->Montage_Play(ReloadData[ESkeletalItemSlot::RRifle2].ReloadMontages);
 		break;
 	case EWeaponUseState::Pistol2:
-		GetMesh()->GetAnimInstance()->Montage_Play(ReloadMontages[ESkeletalItemSlot::RPistol2]);
+		GetMesh()->GetAnimInstance()->Montage_Play(ReloadData[ESkeletalItemSlot::RPistol2].ReloadMontages);
 		break;
 	case EWeaponUseState::Shotgun:
-		GetMesh()->GetAnimInstance()->Montage_Play(ReloadMontages[ESkeletalItemSlot::RShotgun]);
+		GetMesh()->GetAnimInstance()->Montage_Play(ReloadData[ESkeletalItemSlot::RShotgun].ReloadMontages);
 		break;
 	default:
 		break;
@@ -1587,34 +1585,34 @@ void AC_GlobalPlayer::FireStart_Implementation(const FInputActionValue& Value)
 	switch (PlayerCurState)
 	{
 	case EWeaponUseState::Rifle:
-		if (magazinecapacity[ESkeletalItemSlot::RRifle] == 0)
+		if (ReloadData[ESkeletalItemSlot::RRifle].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			return;
 		}
 		break;
 	case EWeaponUseState::Pistol:
-		if (magazinecapacity[ESkeletalItemSlot::RPistol] == 0)
+		if (ReloadData[ESkeletalItemSlot::RPistol].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			return;
 		}
 		break;
 	case EWeaponUseState::Rifle2:
-		if (magazinecapacity[ESkeletalItemSlot::RRifle2] == 0)
+		if (ReloadData[ESkeletalItemSlot::RRifle2].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			return;
 		}
 		break;
 	case EWeaponUseState::Pistol2:
-		if (magazinecapacity[ESkeletalItemSlot::RPistol2] == 0)
+		if (ReloadData[ESkeletalItemSlot::RPistol2].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			return;
 		}
 	case EWeaponUseState::Shotgun:
-		if (magazinecapacity[ESkeletalItemSlot::RShotgun] == 0)
+		if (ReloadData[ESkeletalItemSlot::RShotgun].magazinecapacity == 0)
 		{
 			CreateUseGunCheckSound();
 			return;

@@ -35,12 +35,12 @@ public:
 };
 
 USTRUCT()
-struct FGunWeaponDatas
+struct FGunWeaponReloadDatas
 {
 	GENERATED_BODY()
 public:
-	int  magazinecapacity = 0;
 	UAnimMontage* ReloadMontages = nullptr;
+	int  magazinecapacity = 0;
 };
 
 class USpringArmComponent; // 스프링 암
@@ -347,16 +347,10 @@ private:
 	TArray<UStaticMeshComponent*> StaticItemMeshs;
 
 	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<ESkeletalItemSlot, int> magazinecapacity;
-
-	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	TMap<ESkeletalItemSlot, UAnimMontage*> ReloadMontages;
-
-	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TMap<EStaticItemSlot, USoundBase*> WeaponSounds;
 
 	UPROPERTY()
-	TMap<EStaticItemSlot, FGunWeaponDatas> GunWeaponsData;
+	TMap<ESkeletalItemSlot, FGunWeaponReloadDatas> ReloadData;
 
 	UPROPERTY(Category = "Contents", VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	TArray<USkeletalMeshComponent*> SkeletalItemMeshes;
